@@ -13,11 +13,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class PySelenium():
     
-    def __init__(self, browser="chrome", url=None, exe_driver="./driver/chromedriver.exe"):
+    def __init__(self, browser="chrome", url=None, exe_driver="./driver/chromedriver.exe", timeout=10):
         """
             初始化Driver并打开浏览器
         """
-        browser = browser.lower()# 把所有大小的字母转换成小写
+        browser = browser.lower()                                       # 把所有大小的字母转换成小写
+        self._timeout = timeout                                         # 设置等待超时时间
 
         # 1. 打开浏览器并获取到selenium的浏览器对象
         if browser == "chrome" or browser == "ch":
@@ -60,7 +61,7 @@ class PySelenium():
 
         # 动态等待当前元素10s,10s超时报错
         try:
-            element = WebDriverWait(self._driver, 10).until(lambda s: s.find_element(*locator))
+            element = WebDriverWait(self._driver, self._timeout).until(lambda s: s.find_element(*locator))
             return element
         except:
             raise Exception("未找到元素{}！".format(locator))
@@ -84,7 +85,7 @@ class PySelenium():
 
         # 动态等待当前元素10s,10s超时报错
         try:
-            element = WebDriverWait(self._driver, 10).until(lambda s: s.find_elements(*locator))
+            element = WebDriverWait(self._driver, self._timeout).until(lambda s: s.find_elements(*locator))
             return element
         except:
             raise Exception("未找到元素{}！".format(locator))
