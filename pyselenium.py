@@ -1,6 +1,10 @@
+# -*- coding:utf-8 -*-
+__author__ = 'snake'
+
 """
     selenium的二次封装了
 """
+
 import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -121,6 +125,13 @@ class PySelenium():
         """
         self._driver.implicitly_wait(timeout)
 
+    def switch_to_new_window(self):
+        """
+            切换到最后一个windows
+                - 针对a标签产生的新tab页面
+        """
+        self._driver.switch_to_window(self._driver.window_handles[-1])
+
     def switch_to_frame(self, locator):
         """
             切换到iframe
@@ -137,8 +148,7 @@ class PySelenium():
         """
             移动到某个元素上
         """
-        e = self.find_element(locator)
-        ActionChains(self._driver).move_to_element(e).perform()
+        ActionChains(self._driver).move_to_element(self.find_element(locator)).perform()
 
     def doese_exist(self, locator):
         """
