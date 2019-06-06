@@ -80,7 +80,7 @@ class PySelenium():
 
         # 动态等待当前元素10s,10s超时报错
         try:
-            element = WebDriverWait(self._driver, 10).until(lambda s: s.find_element(*locator))
+            element = WebDriverWait(self._driver, 10).until(lambda s: s.find_elements(*locator))
             return element
         except:
             raise Exception("未找到元素{}！".format(locator))
@@ -132,6 +132,23 @@ class PySelenium():
             切换回默认的页面
         """
         self._driver.switch_to.default_content()
+
+    def move_to_element(self, locator):
+        """
+            移动到某个元素上
+        """
+        e = self.find_element(locator)
+        ActionChains(self._driver).move_to_element(e).perform()
+
+    def doese_exist(self, locator):
+        """
+            判断元素是否存在
+        """
+        try:
+            self.find_element(locator)
+            return True
+        except:
+            return False
 
     def close(self):
         """
